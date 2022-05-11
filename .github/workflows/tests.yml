@@ -26,7 +26,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: unit-tests-results
-          path: app/build/reports/tests/testDebugUnitTest/index.html
+          path: Killyourhabit/build/reports/tests/testDebugUnitTest/index.html
 
   lint:
     name: Lint Check
