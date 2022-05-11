@@ -16,11 +16,11 @@ class ExampleUnitTest {
 
     @Test
     fun addition_isCorrect1() {
-        assertEquals(4, 1 + 2)
+        assertEquals(4, 2 + 2)
     }
     @Test
     fun addition_isCorrect2() {
-        assertEquals(4, 1 + 2)
+        assertEquals(4, 2 + 2)
     }
     @Test
     fun addition_isCorrect3() {
