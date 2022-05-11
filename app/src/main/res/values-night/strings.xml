@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="name_too_short">name too short</string>
+    <string name="card_number_too_short">Card number to short</string>
+    <string name="sussese">Sussess</string>
+    <string name="validation_error">validation error</string>
+    <string name="name">name</string>
+    <string name="credit_card_number">credit card nummer</string>
+    <string name="email_invalid">Email is invalid</string>
+    <string name="email">email</string>
+    <string name="log_home">Home</string>
+    <string name="name_too_long">name too long</string>
+    <string name="if_do_not_have_an_account">If you don\'t have an account</string>
+    <string name="here">Here</string>
+    <string name="login">Login</string>
+    <string name="profile_screen">Profile screen</string>
+    <string name="registration">Registration</string>
+    <string name="dssd">here</string>
+    <string name="password">password</string>
+    <string name="confirm_password">confirm password</string>
+    <string name="if_already_have_an_account">if already have an account</string>
+    <string name="password_invalid">password ist zu schwach</string>
+    <string name="password_not_the_same">password ist not the same!!</string>
+    <string name="Sing_in_success">signInWithEmail:success</string>
+    <string name="successful_registered">Successfull registered</string>
+    <string name="registration_fault">Registration fault</string>
+    <string name="email_invalid_data">Email musst be without other Charakters</string>
+    <string name="login_screen_title">Sign In</string>
+    <string name="screen_event_none"><![CDATA[ScreenEvent -> None]]></string>
+    <string name="register_screen_title">SIgn Up</string>
+</resources>
