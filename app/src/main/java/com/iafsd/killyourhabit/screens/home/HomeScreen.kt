@@ -33,7 +33,6 @@ import kotlinx.coroutines.flow.collect
 @Composable
 fun HomeScreen(navController: NavHostController, viewModel: HomeViewModel = hiltViewModel()) {
 
-    val TAG = "HomeScreen"
     val context = LocalContext.current
 
     val lifecycleOwner = LocalLifecycleOwner.current

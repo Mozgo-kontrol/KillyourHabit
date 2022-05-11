@@ -29,8 +29,9 @@ fun MainScreen() {
             HomeScreen(navController = navController)
         }
 
-        composable(NavRoutes.WelcomeScreen.route) { backStackEntry ->
-            val userName = backStackEntry.arguments?.getString("userName")
+        composable(NavRoutes.WelcomeScreen.route) {
+                //backStackEntry ->
+          //  val userName = backStackEntry.arguments?.getString("userName")
             WelcomeScreen(navController = navController)
         }
 
