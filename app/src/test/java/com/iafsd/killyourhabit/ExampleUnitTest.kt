@@ -1,8 +1,7 @@
 package com.iafsd.killyourhabit
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -12,6 +11,23 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
+        assertEquals(4, 2 + 2)
+    }
+
+    @Test
+    fun addition_isCorrect1() {
+        assertEquals(4, 1 + 2)
+    }
+    @Test
+    fun addition_isCorrect2() {
+        assertEquals(4, 1 + 2)
+    }
+    @Test
+    fun addition_isCorrect3() {
+        assertEquals(4, 2 + 2)
+    }
+    @Test
+    fun addition_isCorrect4() {
         assertEquals(4, 2 + 2)
     }
 }
