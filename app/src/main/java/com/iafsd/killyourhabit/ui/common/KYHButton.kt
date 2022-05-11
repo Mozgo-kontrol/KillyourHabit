@@ -36,7 +36,6 @@ fun KYHButton(
 @Preview(showBackground = true)
 @Composable
 fun PreviewButton(){
-        KYHButton("Login",true, { KYHButto()})
+        KYHButton("Login",true, { })
 }
 
-fun KYHButto() {}

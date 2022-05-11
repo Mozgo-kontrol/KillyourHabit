@@ -15,7 +15,6 @@ import com.iafsd.killyourhabit.screens.registrieren.RegisterScreen
 import kotlinx.coroutines.InternalCoroutinesApi
 
 
-@InternalCoroutinesApi
 @ExperimentalComposeUiApi
 @Composable
 fun MainScreen() {

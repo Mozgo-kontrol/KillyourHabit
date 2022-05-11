@@ -1,6 +1,5 @@
 package com.iafsd.killyourhabit.ui.common
 
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.defaultMinSize
@@ -9,8 +8,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ProgressIndicatorDefaults
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,17 +16,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun KYHCircularProgressIndicator() {
-    var progress by remember { mutableStateOf(0.1f) }
-    val animatedProgress = animateFloatAsState(
-        targetValue = progress,
-        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
-    ).value
-
+fun KYHCircularProgressIndicator(
+    color: Color,
+    strokeWidth: Int = 40
+) {
     Box(modifier = Modifier.fillMaxSize().background(Color.White),
         contentAlignment = Alignment.Center) {
 
-        CircularProgressIndicator(color = Color.Red, strokeWidth = 40.dp)
+        CircularProgressIndicator(color = color, strokeWidth = strokeWidth.dp)
     }
 }
 @Preview(showBackground = true)
@@ -36,12 +31,12 @@ fun KYHCircularProgressIndicator() {
 fun ProgressIndicator(){
     Card(
         modifier = Modifier
-            .defaultMinSize(minWidth = 64.dp, minHeight = 64.dp),
+            .defaultMinSize(minWidth = 48.dp, minHeight = 48.dp),
         elevation = 10.dp, shape = CircleShape
     ) {
-        CircularProgressIndicator(
+        KYHCircularProgressIndicator(
             color = MaterialTheme.colors.secondary,
-            strokeWidth = 4.dp
+            strokeWidth = 40
         )
     }
 }
