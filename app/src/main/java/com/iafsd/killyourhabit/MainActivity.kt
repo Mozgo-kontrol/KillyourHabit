@@ -12,7 +12,7 @@ import com.iafsd.killyourhabit.ui.theme.KillYourHabitTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
 
-@OptIn(ExperimentalComposeUiApi::class)
+@ExperimentalComposeUiApi
 @AndroidEntryPoint
 @InternalCoroutinesApi
 class MainActivity : ComponentActivity() {
@@ -30,13 +30,14 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
+@ExperimentalComposeUiApi
 @InternalCoroutinesApi
 @Composable
 fun Navigation(){
     MainScreen()
 }
 
+@ExperimentalComposeUiApi
 @Preview(showBackground = true)
 @InternalCoroutinesApi
 @Composable

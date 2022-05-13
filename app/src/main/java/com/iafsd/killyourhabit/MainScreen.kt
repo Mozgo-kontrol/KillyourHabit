@@ -12,7 +12,6 @@ import com.iafsd.killyourhabit.screens.WelcomeScreen
 import com.iafsd.killyourhabit.screens.home.HomeScreen
 import com.iafsd.killyourhabit.screens.login.LoginScreen
 import com.iafsd.killyourhabit.screens.registrieren.RegisterScreen
-import kotlinx.coroutines.InternalCoroutinesApi
 
 
 @ExperimentalComposeUiApi

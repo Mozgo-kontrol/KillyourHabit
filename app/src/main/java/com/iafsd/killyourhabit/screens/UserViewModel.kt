@@ -26,17 +26,6 @@ class UserViewModel @Inject constructor(
 
     private val user : MutableLiveData<User> = MutableLiveData()
 
-    init {
-
-    }
-
-
-    fun createNewUserInFIreBase(email:String,password:String){
-
-
-
-    }
-
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.clear()
