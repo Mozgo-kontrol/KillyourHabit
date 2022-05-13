@@ -2,7 +2,9 @@ package com.iafsd.killyourhabit.network.firebase
 
 
 import android.net.Uri
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -14,14 +16,13 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.iafsd.killyourhabit.data.User
 import com.iafsd.killyourhabit.tools.Tools
 import io.reactivex.Completable
 import io.reactivex.Single
-import java.lang.reflect.Type
+import java.time.LocalDateTime
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -38,7 +39,6 @@ class FireBaseDataSource @Inject constructor() {
 
     fun createUserWithEmailAndPassword(email: String, password: String): Single<String> {
         return Single.create { emitter ->
-            var result = ""
             _auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -124,25 +124,25 @@ class FireBaseDataSource @Inject constructor() {
         return Single.create { emitter ->
             _databaseRefer.child(userId)
                 .addListenerForSingleValueEvent(object : ValueEventListener {
+                    @RequiresApi(Build.VERSION_CODES.O)
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
+                       val user = dataSnapshot.getValue<User>()
+                        val id :String = (dataSnapshot.child(NodeNames.USERID).value ?: "Notdefined") as String
+                        val nickname :String = (dataSnapshot.child(NodeNames.NICKNAME).value ?: "Not defined") as  String
+                        val email : String = (dataSnapshot.child(NodeNames.EMAIL).value ?: "Not defined") as String
 
-                        val id = dataSnapshot.child(NodeNames.USERID).value ?: "Notdefined"
-                        val nickname = dataSnapshot.child(NodeNames.NICKNAME).value ?: "Not defined"
-                        val email = dataSnapshot.child(NodeNames.EMAIL).value ?: "Not defined"
                         val registerDate =
-                            dataSnapshot.child(NodeNames.REGISTERDATE).value ?: 1020303003L
+                            (dataSnapshot.child(NodeNames.REGISTERDATE).value ?: LocalDateTime.now()) as Long
                         val birthDayDate =
-                            dataSnapshot.child(NodeNames.BIRTHDAYDATE).value ?: 1020303003L
-                        val isEmailValidated : Any =
-                            dataSnapshot.child(NodeNames.ISEMAILVALIDATED).value ?: false
+                            (dataSnapshot.child(NodeNames.BIRTHDAYDATE).value ?: LocalDateTime.now()) as Long
+                        val isEmailValidated : Boolean =
+                            (dataSnapshot.child(NodeNames.ISEMAILVALIDATED).value ?: false) as Boolean
 
-                        val gson = Gson()
-                        val collectionType: Type = object : TypeToken<User>() {}.type
-                      //  val s: User = gson.fromJson(dataSnapshot, collectionType)
-                        val s = User(id as String, nickname as String, email as String,
-                            registerDate as Long, birthDayDate as Long, isEmailValidated as Boolean
-                        )
-                        Log.e(TAG, "getUserById : $s")
+                        val s = User(id , nickname , email , registerDate , birthDayDate , isEmailValidated )
+                        Log.e(TAG, "getUserById : ${s.email}")
+                        if (user != null) {
+                            Log.e(TAG, "getUserById : ${user.email}")
+                        }
                         emitter.onSuccess(s)
                     }
 
