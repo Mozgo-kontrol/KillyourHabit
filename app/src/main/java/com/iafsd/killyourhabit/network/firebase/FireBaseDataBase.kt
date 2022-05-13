@@ -16,7 +16,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.iafsd.killyourhabit.data.User
 import com.iafsd.killyourhabit.tools.Tools
@@ -126,7 +125,8 @@ class FireBaseDataSource @Inject constructor() {
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     @RequiresApi(Build.VERSION_CODES.O)
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
-                       val user = dataSnapshot.getValue<User>()
+                     //  val user = dataSnapshot.getValue<User>()
+                        Log.e(TAG, "getUserById : $dataSnapshot")
                         val id :String = (dataSnapshot.child(NodeNames.USERID).value ?: "Notdefined") as String
                         val nickname :String = (dataSnapshot.child(NodeNames.NICKNAME).value ?: "Not defined") as  String
                         val email : String = (dataSnapshot.child(NodeNames.EMAIL).value ?: "Not defined") as String
@@ -140,9 +140,9 @@ class FireBaseDataSource @Inject constructor() {
 
                         val s = User(id , nickname , email , registerDate , birthDayDate , isEmailValidated )
                         Log.e(TAG, "getUserById : ${s.email}")
-                        if (user != null) {
-                            Log.e(TAG, "getUserById : ${user.email}")
-                        }
+                      //  if (user != null) {
+                       //     Log.e(TAG, "getUserById : ${user.email}")
+                     //   }
                         emitter.onSuccess(s)
                     }
 
