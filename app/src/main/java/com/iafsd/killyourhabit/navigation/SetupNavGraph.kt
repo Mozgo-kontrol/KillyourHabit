@@ -19,3 +19,19 @@ fun SetupNavGraph(navController: NavHostController) {
     }
 }
 
+/**
+ *
+ *
+ *
+ *                       bottom_bar
+ *                     /
+ *              root <
+ *                     \                 /
+ *                      login_register <
+ *                                      \
+ *
+ *
+ *
+ *
+ *
+ * */
