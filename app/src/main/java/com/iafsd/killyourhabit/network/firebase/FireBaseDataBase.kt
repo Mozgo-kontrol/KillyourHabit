@@ -16,12 +16,12 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.iafsd.killyourhabit.data.User
 import com.iafsd.killyourhabit.tools.Tools
 import io.reactivex.Completable
 import io.reactivex.Single
-import java.time.LocalDateTime
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -35,6 +35,8 @@ class FireBaseDataSource @Inject constructor() {
     private var _currentUser: FirebaseUser? = _auth.currentUser
     private var _databaseRefer: DatabaseReference =
         Firebase.database.reference.child(NodeNames.USERS)
+
+    fun isUserAuth() = _currentUser
 
     fun createUserWithEmailAndPassword(email: String, password: String): Single<String> {
         return Single.create { emitter ->
@@ -104,8 +106,8 @@ class FireBaseDataSource @Inject constructor() {
             fireBaseUser.uid,
             fireBaseUser.displayName.toString(),
             fireBaseUser.email.toString(),
-            Date().time,
-            Date().time,
+            Date().time.toFloat(),
+            Date().time.toFloat(),
             false
         )
         _databaseRefer
@@ -125,27 +127,15 @@ class FireBaseDataSource @Inject constructor() {
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     @RequiresApi(Build.VERSION_CODES.O)
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
-                     //  val user = dataSnapshot.getValue<User>()
-                        Log.e(TAG, "getUserById : $dataSnapshot")
-                        val id :String = (dataSnapshot.child(NodeNames.USERID).value ?: "Notdefined") as String
-                        val nickname :String = (dataSnapshot.child(NodeNames.NICKNAME).value ?: "Not defined") as  String
-                        val email : String = (dataSnapshot.child(NodeNames.EMAIL).value ?: "Not defined") as String
 
-                        val registerDate =
-                            (dataSnapshot.child(NodeNames.REGISTERDATE).value ?: LocalDateTime.now()) as Long
-                        val birthDayDate =
-                            (dataSnapshot.child(NodeNames.BIRTHDAYDATE).value ?: LocalDateTime.now()) as Long
-                        val isEmailValidated : Boolean =
-                            (dataSnapshot.child(NodeNames.ISEMAILVALIDATED).value ?: false) as Boolean
-
-                        val s = User(id , nickname , email , registerDate , birthDayDate , isEmailValidated )
-                        Log.e(TAG, "getUserById : ${s.email}")
-                      //  if (user != null) {
-                       //     Log.e(TAG, "getUserById : ${user.email}")
-                     //   }
-                        emitter.onSuccess(s)
+                        try {
+                            val user = dataSnapshot.getValue<User>()!!
+                          emitter.onSuccess(user)
+                        }
+                        catch (e: Exception){
+                            emitter.onError(e)
+                        }
                     }
-
                     override fun onCancelled(databaseError: DatabaseError) {
                         Log.e(TAG, "getUserById Error: ${databaseError.message}")
                         emitter.onError(databaseError.toException())
@@ -153,6 +143,9 @@ class FireBaseDataSource @Inject constructor() {
                 })
         }
     }
+
+
+
 
 
     fun signOut(): Completable {

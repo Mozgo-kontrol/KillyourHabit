@@ -1,12 +1,16 @@
 package com.iafsd.killyourhabit.screens.login
 
+import android.annotation.SuppressLint
+import android.content.Context
+
 import android.util.Log
+
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.iafsd.killyourhabit.NavRoutes
 import com.iafsd.killyourhabit.R
 import com.iafsd.killyourhabit.getStateFlow
+import com.iafsd.killyourhabit.navigation.NavRoutes
 import com.iafsd.killyourhabit.repository.UserRepositoryImpl
 import com.iafsd.killyourhabit.tools.Tools.showMeThread
 import com.iafsd.killyourhabit.ui.common.FocusedTextFieldKey
@@ -14,6 +18,7 @@ import com.iafsd.killyourhabit.ui.common.InputValidator
 import com.iafsd.killyourhabit.ui.common.InputWrapper
 import com.iafsd.killyourhabit.ui.common.ScreenEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -23,13 +28,15 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
+@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 class LoginViewModel
     @Inject constructor(
         private val handle: SavedStateHandle,
-        private val userRepositoryImpl: UserRepositoryImpl
+        private val userRepositoryImpl: UserRepositoryImpl,
+        @ApplicationContext val application: Context
 ) : ViewModel() {
+
 
     private val TAG: String = LoginViewModel::class.java.simpleName
 
@@ -59,13 +66,6 @@ class LoginViewModel
         if (focusedTextField != FocusedTextFieldKey.NONE) focusOnLastSelectedTextField()
     }
 
-    //email entered
-    fun onEmailEntered(input: String) {
-        //Input validator
-        val errorId = InputValidator.getEmailErrorIdOrNull(input)
-        Log.wtf("F1", "input: $input, ")
-        _email.value = _email.value.copy(value = input, errorId = errorId)
-    }
     //Click on Background close the Keyboard
     fun onContinueBGClick() {
         viewModelScope.launch(Dispatchers.Default) {
@@ -74,9 +74,8 @@ class LoginViewModel
     }
 
    fun onClickButtonLogin() {
-       showMeThread("$TAG: onClickButtonLogin")
-        viewModelScope.launch(Dispatchers.IO) {
-            showMeThread("$TAG: onClickButtonLogin")
+
+        viewModelScope.launch(Dispatchers.Default) {
             _events.send(ScreenEvent.Loading(true))
              userRepositoryImpl.loginUserInRemoteDataBase2(
                 _email.value.value,
@@ -86,7 +85,6 @@ class LoginViewModel
 
                     Log.wtf(TAG, "signInWithEmail:successfully")
                     // Sign in success, update UI with the signed-in user's information
-                    showMeThread("$TAG: signInWithEmail:successfully")
                     loginManager(true,"")
 
                 } else {
@@ -109,27 +107,57 @@ class LoginViewModel
         showMeThread("$TAG: successfulLogin")
         delay(300)
         Log.wtf(TAG, "signInWithEmail: successfulLogin")
+
         _events.send(ScreenEvent.ShowToast(R.string.successful_registered))
-        _events.send(ScreenEvent.MoveToScreen(NavRoutes.HomeScreen.route))
+        _events.send(ScreenEvent.MoveToScreen(NavRoutes.BottomNavigation.route))
         _events.send(ScreenEvent.Loading(false))
 
     }
 
     private suspend fun faultToLogin(faultMessage: String){
-        showMeThread("$TAG: faultToLogin")
         delay(300)
-        Log.wtf(TAG, "signInWithEmail: faultToLogin")
         _events.send(ScreenEvent.Loading(false))
-        _events.send(ScreenEvent.ShowToastString(faultMessage))
+
+        _events.send(ScreenEvent.ShowToastString(faultMessage.split(":")[1]))
+
+        val s = faultMessage.split(":")[1]
+        faultMessage(s)
+        Log.wtf(TAG, "faultToLogin: faultToLogin $s ")
 
     }
-
     //password entered
+    //TODO
+    private suspend fun faultMessage(message: String) {
+
+         when {
+             message.contains(application.getString(R.string.password_is_invalid)) -> {
+                 _password.value = _password.value.copy(errorId = R.string.password_is_invalid)
+             }
+             message.contains(application.getString(R.string.no_user_record_corresponding)) -> {
+                 _email.value = _email.value.copy(errorId = R.string.email_is_not_found)
+             }
+             message.contains(application.getString(R.string.try_again_later)) -> {
+                 _email.value = _email.value.copy(errorId =  R.string.your_account_ist_blocked)
+             }
+             else -> {
+             }
+         }
+    }
+
     fun onPasswordEntered(password: String) {
         //Input validator
-        val errorId = InputValidator.getPasswordErrorIdOrNull(password.trim())
+        val errorId = InputValidator.getPasswordErrorIdOrNullLogin(password.trim())
         _password.value = _password.value.copy(value = password.trim(), errorId = errorId)
     }
+
+    //email entered
+    fun onEmailEntered(input: String) {
+        //Input validator
+        val errorId = InputValidator.getEmailErrorIdOrNull(input.trim())
+        Log.wtf("F1", "input: $input, ")
+        _email.value = _email.value.copy(value = input, errorId = errorId)
+    }
+
 
     fun onTextFieldFocusChanged(key: FocusedTextFieldKey, isFocused: Boolean) {
         focusedTextField = if (isFocused) key else FocusedTextFieldKey.NONE

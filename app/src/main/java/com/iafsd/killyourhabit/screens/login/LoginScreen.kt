@@ -1,6 +1,7 @@
 package com.iafsd.killyourhabit.screens.login
 
 import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -31,6 +32,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
 import com.iafsd.killyourhabit.R
 import com.iafsd.killyourhabit.toast
+import com.iafsd.killyourhabit.toastMessage
 import com.iafsd.killyourhabit.tools.GridUnit
 import com.iafsd.killyourhabit.ui.common.*
 
@@ -69,8 +71,12 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hi
     LaunchedEffect(Unit) {
         events.collect { event ->
             when (event) {
+                //Loading
                 is ScreenEvent.Loading -> showPB.value = event.show
+                //Toast message
                 is ScreenEvent.ShowToast -> context.toast(event.messageId)
+                is ScreenEvent.ShowToastString-> context.toastMessage(event.message)
+                //KeyBoard
                 is ScreenEvent.UpdateKeyboard -> {
                     if (event.show) keyboardController?.show() else keyboardController?.hide()
                 }
@@ -88,9 +94,6 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hi
                 is ScreenEvent.MoveToScreen -> {
                     navController.popBackStack()
                     navController.navigate(event.navRoutes)
-                }
-                else -> {
-                    Log.e(TAG, "ScreenEvent -> None")
                 }
             }
         }
@@ -121,11 +124,15 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hi
         } else {
             //Title
             Text(
-                modifier = Modifier,
+                modifier = Modifier.clickable {
+
+                    viewModel.onEmailEntered("ferbert@yandex.ru")
+                    viewModel.onPasswordEntered("1011992Fii!")
+                                              },
                 text = stringResource(R.string.login_screen_title),
                 style = MaterialTheme.typography.h2
             )
-
+            Spacer(Modifier.height(GridUnit.four.dp))
             //email
             KYHTextField(
                 modifier = Modifier
@@ -162,8 +169,8 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hi
                     imeAction = ImeAction.Next
                 ),
                 inputWrapper = password,
-                onValueChange = viewModel::onPasswordEntered,
                 onImeKeyAction = viewModel::onContinueClick,
+                onValueChange = viewModel::onPasswordEntered,
                 maxCharCount = 30,
                 isPassword = true
             )

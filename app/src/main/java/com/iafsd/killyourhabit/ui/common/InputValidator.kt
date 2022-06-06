@@ -32,6 +32,8 @@ object InputValidator {
         }
     }
 
+
+
     fun getConfirmPasswordErrorIdOrNull(input: String, input2: String): Int? {
         return when {
             !isPasswordValid(input) -> R.string.password_invalid
@@ -40,9 +42,18 @@ object InputValidator {
             else -> null
         }
     }
+    //register
     fun getPasswordErrorIdOrNull(input: String): Int? {
         return when {
             !isPasswordValid(input) -> R.string.password_invalid
+            //etc..
+            else -> null
+        }
+    }
+    //login
+    fun getPasswordErrorIdOrNullLogin(input: String): Int? {
+        return when {
+            input.length<=8 -> R.string.password_is_zu_kurz
             //etc..
             else -> null
         }

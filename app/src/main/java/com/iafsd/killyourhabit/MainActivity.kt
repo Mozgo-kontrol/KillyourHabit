@@ -7,7 +7,12 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.google.android.gms.ads.MobileAds
+import com.iafsd.killyourhabit.admob.AdMob.addInterstitialCallbacks
+import com.iafsd.killyourhabit.admob.AdMob.loadInterstitial
+import com.iafsd.killyourhabit.navigation.SetupNavGraph
+import com.iafsd.killyourhabit.ui.common.CustomGlobal
 import com.iafsd.killyourhabit.ui.theme.KillYourHabitTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -23,8 +28,19 @@ class MainActivity : ComponentActivity() {
             KillYourHabitTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    Navigation()
+                    // Navigation()
+                    val navController = rememberNavController()
+                    SetupNavGraph(navController)
                 }
+            }
+        }
+        //ads is on or off
+        if(CustomGlobal.isAdsOn){
+            MobileAds.initialize(this) {
+                //load the interstitial ad
+                loadInterstitial(this)
+                // add the interstitial ad callbacks
+                addInterstitialCallbacks(this)
             }
         }
     }
@@ -35,14 +51,4 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Navigation(){
     MainScreen()
-}
-
-@ExperimentalComposeUiApi
-@Preview(showBackground = true)
-@InternalCoroutinesApi
-@Composable
-fun DefaultPreview() {
-    KillYourHabitTheme {
-        Navigation()
-    }
 }

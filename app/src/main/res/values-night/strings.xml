@@ -28,4 +28,20 @@
     <string name="login_screen_title">Sign In</string>
     <string name="screen_event_none"><![CDATA[ScreenEvent -> None]]></string>
     <string name="register_screen_title">SIgn Up</string>
+    <string name="log_out">Logout</string>
+    <string name="ad_id_interstitial">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ad_id_banner">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ad_id_adaptative_banner">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="ad_was_loaded">onAdLoaded: Ad was Loaded</string>
+    <string name="call_back_added">addInterstitialCallbacks</string>
+    <string name="on_ad_showed_fullscreen_content">onAdShowedFullScreenContent:  showed fullscreen content</string>
+    <string name="interstiltial_was_not_ready">showInterstitial: THe Interstitial wasn\'t ready yet.</string>
+    <string name="on_ad_failed_to_load">\"onAdFailedToLoad: %1$s\"</string>
+    <string name="on_ad_failed_to_show_full_screen">onAdFailedToShowFullScreenContent:  %1$s</string>
+    <string name="password_is_zu_kurz">Password ist zu kurz, Min 8 Zeichen</string>
+    <string name="password_is_invalid">The password is invalid</string>
+    <string name="email_is_not_found">Email ist not found</string>
+    <string name="no_user_record_corresponding">no user record corresponding</string>
+    <string name="your_account_ist_blocked">Your account ist blocked, try again in 30 Minuts</string>
+    <string name="try_again_later">Try again later.</string>
 </resources>

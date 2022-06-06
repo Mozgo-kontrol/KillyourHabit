@@ -5,9 +5,9 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.iafsd.killyourhabit.NavRoutes
 import com.iafsd.killyourhabit.R
 import com.iafsd.killyourhabit.getStateFlow
+import com.iafsd.killyourhabit.navigation.NavRoutes
 import com.iafsd.killyourhabit.repository.UserRepositoryImpl
 import com.iafsd.killyourhabit.ui.common.FocusedTextFieldKey
 import com.iafsd.killyourhabit.ui.common.InputValidator
@@ -135,7 +135,8 @@ class RegistrirenViewModel @Inject constructor(
         _events.send(ScreenEvent.Loading(false))
     }
 
-    private suspend fun faultRegistered(message: String) {
+    private suspend fun faultRegistered (message: String) {
+
         delay(300)
         _events.send(ScreenEvent.Loading(false))
         Log.i(TAG, " faultRegistered: $message")

@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 // Scope this class to a component using @Singleton scope (i.e. ApplicationGraph)
 @Singleton
-class UserRepositoryImpl @Inject constructor(
+ class UserRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val fireBaseDataSource: FireBaseDataSource
 ) : UserRepository{
@@ -35,6 +35,10 @@ class UserRepositoryImpl @Inject constructor(
 
     override fun signOutUser(): Completable {
         return fireBaseDataSource.signOut()
+    }
+
+    override fun isUserAuth(): FirebaseUser? {
+      return fireBaseDataSource.isUserAuth()
     }
 
 

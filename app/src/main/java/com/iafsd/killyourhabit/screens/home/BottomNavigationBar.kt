@@ -16,7 +16,7 @@ fun BottomNavigationBar(
     modifier: Modifier,
     items: List<BottomNavItem>,
     navController: NavController,
-    onItemClick: (BottomNavItem) -> Unit
+    onItemClick: (BottomNavItem) -> Unit,
 ) {
     val backStackEntry = navController.currentBackStackEntryAsState()
     BottomNavigation(
@@ -29,14 +29,20 @@ fun BottomNavigationBar(
             val selected = item.route == backStackEntry.value?.destination?.route
             BottomNavigationItem(
                 selected = selected,
+                enabled = !selected,
                 selectedContentColor = MaterialTheme.colors.secondary,
                 unselectedContentColor = Color.Gray,
-                onClick = { onItemClick(item) },
+                onClick = {
+                    if (!selected) {
+                        onItemClick(item)
+                    }
+                },
                 icon = {
                     Column(horizontalAlignment = CenterHorizontally) {
                         if (item.badgeCount > 0) {
                             BadgedBox(badge = {
-                                Badge { item.badgeCount.toString() }
+                                Badge(backgroundColor = Color.Red,
+                                    contentColor = Color.White) { Text(item.badgeCount.toString()) }
                             }) {
                                 Icon(imageVector = item.icon, contentDescription = item.name)
                             }
@@ -49,7 +55,7 @@ fun BottomNavigationBar(
                         if (selected) {
                             Text(
                                 text = item.name,
-                                style = MaterialTheme.typography.h5
+                                style = MaterialTheme.typography.caption
                             )
                         }
                     }

@@ -14,4 +14,5 @@ interface UserRepository {
     suspend fun loginUserInRemoteDataBase2 (email :String, password :String): Task<AuthResult>
     fun loadUserDetails() : Single<User?>
     fun signOutUser(): Completable
+    fun isUserAuth(): FirebaseUser?
 }

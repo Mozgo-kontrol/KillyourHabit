@@ -11,4 +11,5 @@ sealed class ScreenEvent{
     object ClearFocus : ScreenEvent()
     class MoveFocus(val direction: FocusDirection = FocusDirection.Down) : ScreenEvent()
     class MoveToScreen(val navRoutes: String) : ScreenEvent()
+    class IsHomeScreenVisible (val istVisible: Boolean) : ScreenEvent()
 }

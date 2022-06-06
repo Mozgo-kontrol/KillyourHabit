@@ -6,12 +6,14 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.iafsd.killyourhabit.navigation.BottomNavigation
+import com.iafsd.killyourhabit.navigation.NavRoutes
 import com.iafsd.killyourhabit.screens.NotificationScreen
-import com.iafsd.killyourhabit.screens.ProfileScreen
 import com.iafsd.killyourhabit.screens.WelcomeScreen
 import com.iafsd.killyourhabit.screens.home.HomeScreen
 import com.iafsd.killyourhabit.screens.login.LoginScreen
 import com.iafsd.killyourhabit.screens.registrieren.RegisterScreen
+import com.iafsd.killyourhabit.screens.settings.SettingScreen
 
 
 @ExperimentalComposeUiApi
@@ -19,10 +21,13 @@ import com.iafsd.killyourhabit.screens.registrieren.RegisterScreen
 fun MainScreen() {
 
     val navController = rememberNavController()
+
+    val navController2 = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = NavRoutes.WelcomeScreen.route,
+        startDestination = NavRoutes.LoginScreen.route,
     ) {
+
         composable(NavRoutes.HomeScreen.route) {
             HomeScreen(navController = navController)
         }
@@ -33,8 +38,14 @@ fun MainScreen() {
             WelcomeScreen(navController = navController)
         }
 
+        composable(NavRoutes.OverviewScreen.route) {
+            //backStackEntry ->
+            //  val userName = backStackEntry.arguments?.getString("userName")
+                BottomNavigation(navController = navController)
+        }
+
         composable(NavRoutes.ProfileScreen.route) {
-            ProfileScreen()
+            SettingScreen(navController = navController)
         }
 
         composable(NavRoutes.LoginScreen.route) {

@@ -21,6 +21,7 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+        signingConfig signingConfigs.debug
     }
 
     buildTypes {
@@ -56,6 +57,7 @@ android {
 
 dependencies {
 
+    implementation 'com.google.android.gms:play-services-ads:20.6.0'
     def retrofit_version = "2.9.0"
     //Android core
     implementation 'androidx.core:core-ktx:1.7.0'
