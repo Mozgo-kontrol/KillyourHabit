@@ -30,12 +30,13 @@ class HomeViewModel @Inject constructor(
 
     private val TAG: String = "HomeViewModel"
     private val _events = Channel<ScreenEvent>()
+
     val events = _events.receiveAsFlow()
+
     val user :  MutableLiveData<User> = MutableLiveData()
     private val compositeDisposable = CompositeDisposable()
 
     init {
-        checkIfUserAuth()
         initUserFromDataBase()
     }
 
@@ -48,17 +49,8 @@ class HomeViewModel @Inject constructor(
         addInterstitialCallbacks(this)
     }*/
 
+    fun ifUserAuth() = userRepositoryImpl.isUserAuth() != null
 
-    private fun checkIfUserAuth() {
-        viewModelScope.launch(Dispatchers.Default) {
-            if (userRepositoryImpl.isUserAuth() == null) {
-                _events.send(ScreenEvent.MoveToScreen(NavRoutes.LoginScreen.route))
-            }
-            else{
-                _events.send(ScreenEvent.IsHomeScreenVisible(true))
-            }
-        }
-    }
         private fun goToLoginScreen() {
             viewModelScope.launch(Dispatchers.Default) {
                 _events.send(ScreenEvent.MoveToScreen(NavRoutes.LoginScreen.route))
@@ -69,10 +61,10 @@ class HomeViewModel @Inject constructor(
             userRepositoryImpl.signOutUser().
                 subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe ({
+                .subscribe (  {
                     goToLoginScreen()
                 },{ throwable ->
-                    Log.i(TAG,
+                    Log.wtf(TAG,
                         "logout: error :  ${throwable.message}")
                 }).also { compositeDisposable.add(it) }
 

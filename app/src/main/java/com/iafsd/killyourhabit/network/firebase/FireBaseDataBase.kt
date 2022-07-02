@@ -27,6 +27,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 
+
+
+
 @Singleton
 class FireBaseDataSource @Inject constructor() {
 
@@ -36,7 +39,7 @@ class FireBaseDataSource @Inject constructor() {
     private var _databaseRefer: DatabaseReference =
         Firebase.database.reference.child(NodeNames.USERS)
 
-    fun isUserAuth() = _currentUser
+    fun isUserAuth() = FirebaseAuth.getInstance().currentUser != null
 
     fun createUserWithEmailAndPassword(email: String, password: String): Single<String> {
         return Single.create { emitter ->
@@ -145,14 +148,17 @@ class FireBaseDataSource @Inject constructor() {
     }
 
 
-
-
-
     fun signOut(): Completable {
         return Completable.create { emitter ->
             _auth.signOut()
             emitter.onComplete()
         }
+    }
+
+    fun signOutV2() {
+
+            _auth.signOut()
+
     }
 
     fun signInWithEmailAndPassword2(email: String, password: String): Task<AuthResult> {

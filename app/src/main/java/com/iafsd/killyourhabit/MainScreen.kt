@@ -22,7 +22,7 @@ fun MainScreen() {
 
     val navController = rememberNavController()
 
-    val navController2 = rememberNavController()
+    //val navController2 = rememberNavController()
     NavHost(
         navController = navController,
         startDestination = NavRoutes.LoginScreen.route,

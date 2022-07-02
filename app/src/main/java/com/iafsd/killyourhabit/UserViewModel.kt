@@ -1,4 +1,4 @@
-package com.iafsd.killyourhabit.screens
+package com.iafsd.killyourhabit
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

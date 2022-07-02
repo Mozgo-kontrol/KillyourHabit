@@ -2,9 +2,7 @@ package com.iafsd.killyourhabit.screens.login
 
 import android.annotation.SuppressLint
 import android.content.Context
-
 import android.util.Log
-
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -64,6 +62,27 @@ class LoginViewModel
     //initial focused Text Field in not NONE than last focus screen
     init {
         if (focusedTextField != FocusedTextFieldKey.NONE) focusOnLastSelectedTextField()
+        //checkIfUserAuth()
+
+    }
+
+    private fun checkIfUserAuth() {
+
+        if (userRepositoryImpl.isUserAuth() != null) {
+            Log.wtf(TAG, "signInWithEmail:successfully ${userRepositoryImpl.isUserAuth()}")
+            viewModelScope.launch(Dispatchers.Default) {
+              //  _events.send(ScreenEvent.Loading(true))
+                onContinueBGClick()
+                successfullLogin()
+                _events.send(ScreenEvent.Loading(false))
+            }
+        }
+        else {
+            viewModelScope.launch(Dispatchers.Default) {
+                _events.send(ScreenEvent.Loading(false))
+            }
+
+        }
     }
 
     //Click on Background close the Keyboard
@@ -99,13 +118,12 @@ class LoginViewModel
     private fun loginManager(boolean: Boolean, message:String){
         showMeThread("$TAG: loginManager")
         viewModelScope.launch(Dispatchers.Default) {
-            if (boolean) successfulLogin() else faultToLogin(message)
+            if (boolean) successfullLogin() else faultToLogin(message)
         }
     }
 
-    private suspend fun successfulLogin(){
+    private suspend fun successfullLogin(){
         showMeThread("$TAG: successfulLogin")
-        delay(300)
         Log.wtf(TAG, "signInWithEmail: successfulLogin")
 
         _events.send(ScreenEvent.ShowToast(R.string.successful_registered))

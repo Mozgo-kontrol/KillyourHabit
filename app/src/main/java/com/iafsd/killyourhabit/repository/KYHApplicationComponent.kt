@@ -1,5 +1,7 @@
 package com.iafsd.killyourhabit.repository
 
+import com.iafsd.killyourhabit.network.retrofit.ApiService
+import com.iafsd.killyourhabit.network.retrofit.v2.NetworkModule
 import dagger.Component
 import javax.inject.Singleton
 
@@ -14,4 +16,9 @@ interface KYHApplicationComponent {
     // The return type  of functions inside the component interface is
     // what can be provided from the container
     fun repository(): UserRepositoryImpl
+
+    fun retrofit(): ApiService
+
+    fun network(): NetworkModule
+
 }

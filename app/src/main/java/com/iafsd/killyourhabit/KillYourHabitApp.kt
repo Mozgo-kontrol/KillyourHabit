@@ -6,7 +6,8 @@ import com.iafsd.killyourhabit.repository.DaggerKYHApplicationComponent
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class KillYourHabitApp : Application() {
+class KillYourHabitApp: Application() {
+
 
     val TAG = "KillYourHabitApp"
 
@@ -18,6 +19,12 @@ class KillYourHabitApp : Application() {
     }
 
     private fun initialApp(){
+
+
+
+
+        //appComponent.repository().signOutUserv2()
+
      // Reference to the application graph that is used across the whole app
      Log.i(TAG, "Initial App")
     }

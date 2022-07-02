@@ -36,8 +36,12 @@ import javax.inject.Singleton
     override fun signOutUser(): Completable {
         return fireBaseDataSource.signOut()
     }
+    //TODO
+     fun signOutUserv2(){
+        return fireBaseDataSource.signOutV2()
+    }
 
-    override fun isUserAuth(): FirebaseUser? {
+    override fun isUserAuth(): Boolean {
       return fireBaseDataSource.isUserAuth()
     }
 

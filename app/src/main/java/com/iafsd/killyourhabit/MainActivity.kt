@@ -1,8 +1,10 @@
 package com.iafsd.killyourhabit
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -22,18 +24,25 @@ import kotlinx.coroutines.InternalCoroutinesApi
 @InternalCoroutinesApi
 class MainActivity : ComponentActivity() {
 
+    private val viewModel: MainActivityViewModel by viewModels()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val isAuth = viewModel.isUserAuth()
         setContent {
             KillYourHabitTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
                     // Navigation()
                     val navController = rememberNavController()
-                    SetupNavGraph(navController)
+                    Log.wtf("SSS", "onCreate : isUserAuth  $isAuth")
+                    SetupNavGraph(navController, isAuth)
                 }
             }
         }
+
         //ads is on or off
         if(CustomGlobal.isAdsOn){
             MobileAds.initialize(this) {

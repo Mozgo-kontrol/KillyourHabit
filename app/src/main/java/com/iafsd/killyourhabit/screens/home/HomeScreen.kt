@@ -8,7 +8,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,9 +34,12 @@ import com.iafsd.killyourhabit.ui.common.ScreenEvent
 fun HomeScreen(navController: NavHostController, viewModel: HomeViewModel = hiltViewModel()) {
 
     val context = LocalContext.current
-
     val lifecycleOwner = LocalLifecycleOwner.current
 
+    val userName = produceState(initialValue = ""){
+        value = viewModel.user.value?.nickname.toString()
+    }
+    
 
     val events = remember(viewModel.events, lifecycleOwner) {
         viewModel.events.flowWithLifecycle(
@@ -45,14 +48,9 @@ fun HomeScreen(navController: NavHostController, viewModel: HomeViewModel = hilt
         )
     }
 
-    var isHomeScreenVisible = remember {
-        mutableStateOf(false)
-    }
-
     LaunchedEffect(Unit) {
         events.collect { event ->
             when (event) {
-                is ScreenEvent.IsHomeScreenVisible -> {isHomeScreenVisible.value = event.istVisible}
                 is ScreenEvent.ShowToastString -> context.toastMessage(event.message)
                 is ScreenEvent.ShowToast -> context.toast(event.messageId)
                 is ScreenEvent.MoveToScreen -> {
@@ -62,11 +60,9 @@ fun HomeScreen(navController: NavHostController, viewModel: HomeViewModel = hilt
                 else -> {}
             }
         }
+            // viewModel.user.value?.nickname
     }
-        //val name by remember { viewModel.user.value.nickname }
-       //viewModel.user.observe{ LifecycleOwner {  }, Observer { name = it.nickname }})
 
-   if(isHomeScreenVisible.value) {
        Scaffold(modifier = Modifier
            .fillMaxSize(),
            topBar = {
@@ -88,7 +84,10 @@ fun HomeScreen(navController: NavHostController, viewModel: HomeViewModel = hilt
            ) {
                Text("Home Screen", style = MaterialTheme.typography.h5)
 
-               Text("Welcome ${viewModel.user.value?.nickname}",
+               Text("Welcome ${userName.value}",
+                   style = MaterialTheme.typography.h5)
+
+               Text("user is authenticated : ${viewModel.ifUserAuth()}",
                    style = MaterialTheme.typography.h5)
 
                Spacer(Modifier.height(32.dp))
@@ -99,7 +98,6 @@ fun HomeScreen(navController: NavHostController, viewModel: HomeViewModel = hilt
                )
            }
        }
-   }
 
 }
 

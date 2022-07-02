@@ -9,7 +9,6 @@ plugins {
 
 android {
     compileSdk 31
-
     defaultConfig {
         applicationId "com.iafsd.killyourhabit"
         minSdk 21
@@ -106,10 +105,13 @@ dependencies {
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
     implementation 'androidx.activity:activity-compose:1.4.0'
-    //Tools
+
+    //Dependency injection
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
-    //implementation 'androidx.hilt:hilt-navigation-fragment:1.0.0'
+
+
+
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
     implementation 'androidx.test.espresso:espresso-core:3.4.0'
     //Compose navigation
