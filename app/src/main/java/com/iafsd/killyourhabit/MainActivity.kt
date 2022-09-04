@@ -7,7 +7,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.ads.MobileAds
@@ -53,11 +52,4 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
-
-@ExperimentalComposeUiApi
-@InternalCoroutinesApi
-@Composable
-fun Navigation(){
-    MainScreen()
 }

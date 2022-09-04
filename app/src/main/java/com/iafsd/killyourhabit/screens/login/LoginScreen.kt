@@ -97,6 +97,7 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hi
                     navController.popBackStack()
                     navController.navigate(event.navRoutes)
                 }
+                else -> {}
             }
         }
     }

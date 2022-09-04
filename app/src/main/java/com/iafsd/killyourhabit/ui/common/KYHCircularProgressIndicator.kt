@@ -41,7 +41,7 @@ fun ProgressIndicator(){
 }
 /*
 @Composable
-fun KYHCircularProgressIndicatorSample() {
+fun KYHCircularProgressIndicator() {
     var progress by remember { mutableStateOf(0.1f) }
     val animatedProgress = animateFloatAsState(
         targetValue = progress,
