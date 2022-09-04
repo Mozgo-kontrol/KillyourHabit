@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
@@ -42,9 +43,15 @@ fun KYHTextField(
         if (isPassword) mutableStateOf(true) else mutableStateOf(false)
     }
 
+    val focus = remember { mutableStateOf(false) }
+
     Column {
         TextField(
-            modifier = modifier,
+            modifier = modifier.onFocusChanged {
+                if (focus.value != it.isFocused) {
+                    focus.value = it.isFocused
+                }
+            },
             value = fieldValue.value,
             onValueChange = {
                 if (maxCharCount != null) {
@@ -58,7 +65,7 @@ fun KYHTextField(
                 }
             },
             label = { Text(stringResource(labelResId)) },
-            isError = inputWrapper.errorId != null,
+            isError = !focus.value && inputWrapper.errorId != null,
             visualTransformation = if (passwordCurrentHidden) PasswordVisualTransformation() else visualTransformation,
             keyboardOptions = keyboardOptions,
             keyboardActions = KeyboardActions(onAny = { onImeKeyAction() }),
@@ -76,7 +83,7 @@ fun KYHTextField(
                 }
             }
         )
-        if (inputWrapper.errorId != null) {
+        if (!focus.value && inputWrapper.errorId != null) {
             Text(
                 text = stringResource(inputWrapper.errorId),
                 color = MaterialTheme.colors.error,

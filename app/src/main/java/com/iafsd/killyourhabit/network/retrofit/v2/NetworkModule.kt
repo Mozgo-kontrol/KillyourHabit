@@ -24,6 +24,7 @@ class NetworkModule @Inject constructor() {
             .build()
             .create(NetworkService::class.java)
     }
+
 }
 
 interface NetworkService {

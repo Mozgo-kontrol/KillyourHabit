@@ -6,9 +6,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iafsd.killyourhabit.R
-import com.iafsd.killyourhabit.getStateFlow
 import com.iafsd.killyourhabit.navigation.NavRoutes
 import com.iafsd.killyourhabit.repository.UserRepositoryImpl
+import com.iafsd.killyourhabit.tools.getStateFlow
 import com.iafsd.killyourhabit.ui.common.FocusedTextFieldKey
 import com.iafsd.killyourhabit.ui.common.InputValidator
 import com.iafsd.killyourhabit.ui.common.InputWrapper
@@ -85,7 +85,10 @@ class RegistrirenViewModel @Inject constructor(
     //Click on Continue close the Keyboard id input is valid
     fun onContinueClick() {
         viewModelScope.launch(Dispatchers.Default) {
-            if (areInputsValid.value) clearFocusAndHideKeyboard()
+            clearFocusAndHideKeyboard()
+            if (areInputsValid.value) {
+                onButtonClick()
+            }
         }
 
     }
@@ -131,7 +134,7 @@ class RegistrirenViewModel @Inject constructor(
     private suspend fun successRegistered() {
         // delay(300)
         _events.send(ScreenEvent.ShowToast(R.string.successful_registered))
-        _events.send(ScreenEvent.MoveToScreen(NavRoutes.HomeScreen.route))
+        _events.send(ScreenEvent.MoveToScreen(NavRoutes.BottomNavigation.route))
         _events.send(ScreenEvent.Loading(false))
     }
 

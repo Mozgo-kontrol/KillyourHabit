@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                 Surface(color = MaterialTheme.colors.background) {
                     // Navigation()
                     val navController = rememberNavController()
-                    Log.wtf("SSS", "onCreate : isUserAuth  $isAuth")
+                    Log.wtf("SSS", "onCreate : isUserAuth  $isAuth ")
                     SetupNavGraph(navController, isAuth)
                 }
             }

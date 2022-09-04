@@ -46,5 +46,8 @@
     <string name="no_user_record_corresponding">no user record corresponding</string>
     <string name="your_account_ist_blocked">Your account ist blocked, try again in 30 Minuts</string>
     <string name="try_again_later">Try again later.</string>
+    <string name="you_do_not_have_any_notification">You don\'t have any notification</string>
+    <string name="sign_in_with_email_successfully">signInWithEmail:successfully</string>
+    <string name="onCleared">onCleared</string>
 
 </resources>

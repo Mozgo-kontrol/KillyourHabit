@@ -30,7 +30,7 @@ private val DarkColorPalette = darkColors(
     surface = SecondaryOrange,
     //grid lines of sudoku board
     onPrimary = SecondaryOrange,
-    onSurface = SecondaryOrange
+    onSurface = SecondaryOrange,
 )
 
 private val LightColorPalette = lightColors(

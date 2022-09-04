@@ -15,7 +15,7 @@ val accentAmber = Color(0xFFffe400)
 
 val Purple200 = Color(0xFFBB86FC)
 val Purple700 = Color(0xFF3700B3)
-
+val LilaLight = Color(0xFF7c4dff)
 val textColorLight = Color.Black
 val textColorDark = LightBlue
 

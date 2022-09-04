@@ -26,20 +26,15 @@ import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
-
-
-
 @Singleton
 class FireBaseDataSource @Inject constructor() {
 
     private val TAG: String = FireBaseDataSource::class.java.simpleName
     private var _auth : FirebaseAuth = Firebase.auth
-    private var _currentUser: FirebaseUser? = _auth.currentUser
     private var _databaseRefer: DatabaseReference =
         Firebase.database.reference.child(NodeNames.USERS)
 
-    fun isUserAuth() = FirebaseAuth.getInstance().currentUser != null
+    fun  isUserAuth() = FirebaseAuth.getInstance().currentUser != null
 
     fun createUserWithEmailAndPassword(email: String, password: String): Single<String> {
         return Single.create { emitter ->
@@ -85,7 +80,7 @@ class FireBaseDataSource @Inject constructor() {
     }
 
 
-    fun updateUserProfileInfo(fireBaseUser: FirebaseUser, name: String, url: Uri?) {
+    private fun updateUserProfileInfo(fireBaseUser: FirebaseUser, name: String, url: Uri?) {
         //A Object to make an request for firebase
 
         val request = UserProfileChangeRequest.Builder()
@@ -124,7 +119,10 @@ class FireBaseDataSource @Inject constructor() {
     }
 
     fun getUserById(): Single<User?> {
-        val userId = _currentUser?.uid ?: "userIsNotRegistered"
+        val userId = _auth.currentUser?.uid ?: "userIsNotRegistered"
+
+        Log.i(TAG, "user update $userId")
+
         return Single.create { emitter ->
             _databaseRefer.child(userId)
                 .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -153,12 +151,6 @@ class FireBaseDataSource @Inject constructor() {
             _auth.signOut()
             emitter.onComplete()
         }
-    }
-
-    fun signOutV2() {
-
-            _auth.signOut()
-
     }
 
     fun signInWithEmailAndPassword2(email: String, password: String): Task<AuthResult> {

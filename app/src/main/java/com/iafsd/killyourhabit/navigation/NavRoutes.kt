@@ -4,7 +4,7 @@ package com.iafsd.killyourhabit.navigation
 sealed class NavRoutes (val route: String) {
     object BottomNavigation : NavRoutes("bottom_bar_nav")
 
-    //Graph
+    //Graphs
     object RootGraph: NavRoutes("root")
     object LoginGraph: NavRoutes("login_register")
     object BottomGraph: NavRoutes("bottom_bar")

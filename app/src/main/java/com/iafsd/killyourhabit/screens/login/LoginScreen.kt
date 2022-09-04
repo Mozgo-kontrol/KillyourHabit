@@ -30,10 +30,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
+import com.iafsd.killyourhabit.BuildConfig
 import com.iafsd.killyourhabit.R
-import com.iafsd.killyourhabit.toast
-import com.iafsd.killyourhabit.toastMessage
 import com.iafsd.killyourhabit.tools.GridUnit
+import com.iafsd.killyourhabit.tools.toast
+import com.iafsd.killyourhabit.tools.toastMessage
 import com.iafsd.killyourhabit.ui.common.*
 
 
@@ -60,6 +61,7 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hi
     val email by viewModel._email.collectAsState()
 
     val password by viewModel._password.collectAsState()
+
 
     val areInputsValid by viewModel.areInputsValid.collectAsState()
 
@@ -125,10 +127,10 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hi
             //Title
             Text(
                 modifier = Modifier.clickable {
-
-                    viewModel.onEmailEntered("ferbert@yandex.ru")
-                    viewModel.onPasswordEntered("1011992Fii!")
-                                              },
+                    if (BuildConfig.DEBUG) {
+                        viewModel.onEmailEntered("I_Ferbert@gmx.de")
+                        viewModel.onPasswordEntered("QATest12345!")
+                    } },
                 text = stringResource(R.string.login_screen_title),
                 style = MaterialTheme.typography.h2
             )
@@ -166,7 +168,7 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hi
                 labelResId = R.string.password,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Next
+                    imeAction = ImeAction.Done
                 ),
                 inputWrapper = password,
                 onImeKeyAction = viewModel::onContinueClick,

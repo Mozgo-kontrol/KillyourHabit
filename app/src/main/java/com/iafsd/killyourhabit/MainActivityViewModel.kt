@@ -12,14 +12,11 @@ class MainActivityViewModel @Inject constructor(private val userRepository: User
     LifecycleObserver {
 
     private val TAG: String = MainActivityViewModel::class.java.simpleName
-
-
     fun isUserAuth() = userRepository.isUserAuth()
 
     init {
 
-       // isUserAuth.postValue(userRepository.isUserAuth())
-        Log.d("SSS", "init repository : ${userRepository.isUserAuth()}" )
+        Log.d( TAG, "init repository : ${userRepository.isUserAuth()}" )
     }
 
 

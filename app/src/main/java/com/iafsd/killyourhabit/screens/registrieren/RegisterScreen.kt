@@ -30,8 +30,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
 import com.iafsd.killyourhabit.R
-import com.iafsd.killyourhabit.toast
-import com.iafsd.killyourhabit.toastMessage
+import com.iafsd.killyourhabit.tools.toast
+import com.iafsd.killyourhabit.tools.toastMessage
 import com.iafsd.killyourhabit.ui.common.*
 
 
@@ -41,7 +41,7 @@ fun RegisterScreen(
     navController: NavHostController,
     viewModel: RegistrirenViewModel = hiltViewModel()
 ) {
-    val TAG = "LoginScreen"
+    val TAG = "Registrieren"
     val context = LocalContext.current
 
     val lifecycleOwner = LocalLifecycleOwner.current

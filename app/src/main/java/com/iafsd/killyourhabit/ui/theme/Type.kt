@@ -21,14 +21,20 @@ val Typography = Typography(
     h2 = TextStyle(
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Bold,
-        fontSize = 42.sp,
+        fontSize = 32.sp,
         textAlign = TextAlign.Center
 
+    ),
+    h3 = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Bold,
+        fontSize = 24.sp,
+        textAlign = TextAlign.Center
     ),
     h4 = TextStyle(
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Bold,
-        fontSize = 10.sp,
+        fontSize = 16.sp,
         textAlign = TextAlign.Center
     ),
     subtitle1 = TextStyle(

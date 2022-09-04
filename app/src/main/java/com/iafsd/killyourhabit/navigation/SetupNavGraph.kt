@@ -5,10 +5,21 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 
+/**
+ *
+ *                                      - notification
+ *                                   /  - home
+ *                       bottom_bar     - settings
+ *                     /
+ *              root <
+ *                     \                 /login
+ *                      login_register <
+ *                                      \Register
+ *
+ * */
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-@ExperimentalComposeUiApi
-fun SetupNavGraph(navController: NavHostController, isUserRegistered: Boolean ) {
-
+fun SetupNavGraph(navController: NavHostController, isUserRegistered: Boolean) {
 
     NavHost(
         navController = navController,
@@ -20,19 +31,3 @@ fun SetupNavGraph(navController: NavHostController, isUserRegistered: Boolean ) 
     }
 }
 
-/**
- *
- *
- *
- *                       bottom_bar
- *                     /
- *              root <
- *                     \                 /
- *                      login_register <
- *                                      \
- *
- *
- *
- *
- *
- * */

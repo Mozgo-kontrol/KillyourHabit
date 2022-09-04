@@ -15,7 +15,7 @@ object Tools{
       val b = Looper.getMainLooper().thread == Thread.currentThread()
       val currenttread = Thread.currentThread()
       // Thread.sleep(5000)
-      Log.wtf(tag, "Main its current thread: $b : ${currenttread.name}")
+      Log.wtf(tag, "Current thread: $b : ${currenttread.name}")
 
    }
 }

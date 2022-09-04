@@ -1,4 +1,4 @@
-package com.iafsd.killyourhabit
+package com.iafsd.killyourhabit.tools
 
 import android.content.Context
 import android.widget.Toast

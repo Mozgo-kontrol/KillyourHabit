@@ -7,7 +7,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iafsd.killyourhabit.data.User
-import com.iafsd.killyourhabit.navigation.NavRoutes
 import com.iafsd.killyourhabit.repository.UserRepositoryImpl
 import com.iafsd.killyourhabit.ui.common.ScreenEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val handle: SavedStateHandle,
-    private val userRepositoryImpl: UserRepositoryImpl,
+    private val userRepositoryImpl : UserRepositoryImpl,
     @ApplicationContext application: Context,
 ) : ViewModel() {
 
@@ -33,67 +32,58 @@ class HomeViewModel @Inject constructor(
 
     val events = _events.receiveAsFlow()
 
-    val user :  MutableLiveData<User> = MutableLiveData()
+    val user: MutableLiveData<User> = MutableLiveData()
+    private val isUserAuth: MutableLiveData<Boolean> = MutableLiveData()
     private val compositeDisposable = CompositeDisposable()
 
     init {
+        ifUserAuth()
         initUserFromDataBase()
     }
 
-   /* private fun intitAdmob(){
-        //initialize the mobile ads sdk
-        MobileAds.initialize(this) {}
-        //load the interstitial ad
-        loadInterstitial(this)
-        //add the interstitial ad callbacks
-        addInterstitialCallbacks(this)
-    }*/
+    fun showMessageFabButton(){
+        viewModelScope.launch(Dispatchers.Default) {
+            _events.send(ScreenEvent.ShowToastString("FloatingButton"))
+        }
+    }
 
-    fun ifUserAuth() = userRepositoryImpl.isUserAuth() != null
+   private fun ifUserAuth() {
+        isUserAuth.postValue(userRepositoryImpl.isUserAuth())
+    }
 
-        private fun goToLoginScreen() {
-            viewModelScope.launch(Dispatchers.Default) {
-                _events.send(ScreenEvent.MoveToScreen(NavRoutes.LoginScreen.route))
+    private fun loadingData(loading : Boolean){
+        viewModelScope.launch(Dispatchers.Default) {
+            _events.send(ScreenEvent.Loading(loading))
+        }
+    }
+
+
+    private fun initUserFromDataBase() {
+        loadingData(true)
+        userRepositoryImpl.loadUserDetails()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnError {
+                Log.wtf(TAG, "initUserFromDataBase: fault : Error:  ${it.message}")
             }
-        }
+            .doOnSuccess { Log.i(TAG, "initUserFromDataBase: Success:  $it") }
+            .subscribe({ userR ->
+                user.postValue(userR)
+                loadingData(false)
+            },
+                { throwable ->
+                    Log.i(TAG,
+                        "registerNewUserInRemoteDataBase: throwable :  ${throwable.message}")
+                })
+            .also {
+                compositeDisposable.add(it)
+            }
 
-        fun logout() {
-            userRepositoryImpl.signOutUser().
-                subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe (  {
-                    goToLoginScreen()
-                },{ throwable ->
-                    Log.wtf(TAG,
-                        "logout: error :  ${throwable.message}")
-                }).also { compositeDisposable.add(it) }
+    }
 
-        }
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.clear()
 
-        private fun initUserFromDataBase() {
-            userRepositoryImpl.loadUserDetails()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnError {
-                    Log.wtf(TAG, "initUserFromDataBase: fault : Error:  ${it.message}")
-                }
-                .doOnSuccess { Log.i(TAG, "initUserFromDataBase: Success:  $it") }
-                .subscribe({ userR ->
-                    user.postValue(userR)
-                },
-                    { throwable ->
-                        Log.i(TAG,
-                            "registerNewUserInRemoteDataBase: throwable :  ${throwable.message}")
-                    })
-                .also {
-                    compositeDisposable.add(it)
-                }
-
-        }
-
-        override fun onCleared() {
-            super.onCleared()
-            compositeDisposable.clear()
-
-        }
+    }
 }

@@ -8,10 +8,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.iafsd.killyourhabit.navigation.BottomNavigation
 import com.iafsd.killyourhabit.navigation.NavRoutes
-import com.iafsd.killyourhabit.screens.NotificationScreen
 import com.iafsd.killyourhabit.screens.WelcomeScreen
 import com.iafsd.killyourhabit.screens.home.HomeScreen
 import com.iafsd.killyourhabit.screens.login.LoginScreen
+import com.iafsd.killyourhabit.screens.notifications.NotificationScreen
 import com.iafsd.killyourhabit.screens.registrieren.RegisterScreen
 import com.iafsd.killyourhabit.screens.settings.SettingScreen
 
@@ -22,7 +22,6 @@ fun MainScreen() {
 
     val navController = rememberNavController()
 
-    //val navController2 = rememberNavController()
     NavHost(
         navController = navController,
         startDestination = NavRoutes.LoginScreen.route,
